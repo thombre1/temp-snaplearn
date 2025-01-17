@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="../icons/snaplearn-128p.png">
+  <link rel="stylesheet" href="./output.css">
+  <title>Login Page</title>
+
+ 
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"></script>
+</head>
+<body class="bg-gradient-to-r from-neutral-900 to-neutral-800 text-white  flex items-center justify-center h-screen">
+  <div class="bg-neutral-800 text-white shadow-md rounded-lg p-8 max-w-sm w-full">
+
+    <!-- logo -->
+    <div id="head-image" class="flex justify-center">
+      <img src="../icons/logo-snaplearn.png" alt="" srcset="" class="ml-4 w-48 col-span-3">
+  </div>
+    <h1 class="text-2xl font-bold  text-center mb-6">Login</h1>
+
+    <!-- Email & Password Login -->
+    <form id="loginForm" class="space-y-4">
+      <div>
+        <label for="email" class="block text-sm font-medium">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          class="mt-1 block text-black w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500"
+        />
+      </div>
+      <div>
+        <label for="password" class="block text-sm font-medium">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          required
+          class="text-black mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500"
+        />
+      </div>
+      <button
+        type="submit"
+        class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
+      >
+        Sign In
+      </button>
+    </form>
+
+    <!-- Divider -->
+    <div class="flex items-center my-4">
+      <hr class="flex-grow border-gray-300">
+      <span class="mx-2 text-sm ">OR</span>
+      <hr class="flex-grow border-gray-300">
+    </div>
+
+    <!-- OAuth Buttons -->
+    <div class="space-y-2">
+      <button
+        id="google-signin"
+        class="w-full flex items-center justify-center border border-gray-300 bg-white hover:bg-gray-100 text-gray-700 py-2 px-4 rounded shadow focus:outline-none">
+        <img src="../icons/google.svg" alt="Google" class="h-5 w-5 mr-2">
+        Sign in with Google
+      </button>
+      <button
+        id="github-signin"
+        class="w-full flex items-center justify-center border border-gray-300 bg-white hover:bg-gray-100 text-gray-700 py-2 px-4 rounded shadow focus:outline-none">
+        <img src="../icons/github.svg" alt="GitHub" class="h-5 w-5 mr-2">
+        Sign in with GitHub
+      </button>
+    </div>
+
+    <!-- Signup Link -->
+    <p class="text-center text-sm mt-4">
+      Don't have an account?
+      <a href="./signup.html" class="text-orange-500 hover:underline">Sign Up</a>
+    </p>
+  </div>
+
+  <!-- <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBcaeIPFKKYX16KdSNgMLPxCorOCiOK7X8",
+      authDomain: "snaplearn-gcoen.firebaseapp.com",
+      projectId: "snaplearn-gcoen",
+      storageBucket: "snaplearn-gcoen.firebasestorage.app",
+      messagingSenderId: "692852504109",
+      appId: "1:692852504109:web:76a1a5cbea0fc5934a6aa4",
+      measurementId: "G-N2EZ7LZZDK"
+      };
+
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Handle Email/Password Login
+    const loginForm = document.getElementById('loginForm');
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      try {
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        alert(`Welcome back, ${userCredential.user.email}!`);
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+
+    // Google Sign-In
+    document.getElementById('google-signin').addEventListener('click', async () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        const result = await auth.signInWithPopup(provider);
+        alert(`Signed in with Google: ${result.user.displayName}`);
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+
+    // GitHub Sign-In
+    document.getElementById('github-signin').addEventListener('click', async () => {
+      const provider = new firebase.auth.GithubAuthProvider();
+      try {
+        const result = await auth.signInWithPopup(provider);
+        alert(`Signed in with GitHub: ${result.user.displayName}`);
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+  </script> -->
+</body>
+</html>
