@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="../icons/snaplearn-128p.png">
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <title>Logged In</title>
+</head>
+<body class="bg-gradient-to-r from-neutral-900 to-neutral-800 text-white flex items-center justify-center h-screen">
+  <div class="text-center">
+    <h1 class="text-3xl font-bold">Logged in as:</h1>
+    <h2 id="username" class="text-2xl mt-4"></h2>
+    <img id="profile" class="mt-4 rounded-full w-32 h-32" alt="Profile Picture">
+    <button
+      id="logout"
+      class="mt-6 bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
+    >
+      Log Out
+    </button>
+  </div>
+
+  <script type="module">
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+
+    const auth = getAuth();
+
+    // Check user's authentication 
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is logged in
+        document.getElementById("username").textContent = user.displayName;
+        document.getElementById("profile").src = user.photoURL;
+      } else {
+        // User is not authenticated, redirect to login page
+        window.location.href = "./index.html";
+      }
+    });
+
+    // Logout functionality
+    const logoutButton = document.getElementById("logout");
+    logoutButton.addEventListener("click", () => {
+      signOut(auth)
+        .then(() => {
+          localStorage.clear(); // Clear local storage
+          window.location.href = "./index.html"; // Redirect to login page
+        })
+        .catch((error) => {
+          console.error("Error during sign-out:", error.message);
+        });
+    });
+  </script>
+</body>
+</html>
+ 
+
+ 
