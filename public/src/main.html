@@ -6,151 +6,64 @@
     <title>Explore Page</title>
     <link rel="icon" type="image/x-icon" href="../icons/snaplearn-128p.png">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    
 </head>
-<body class="bg-gradient-to-r from-neutral-950 to-neutral-900 text-white ">
-
-    <div id="head-image" class="grid grid-cols-4">
-        <img src="../icons/logo-snaplearn.png" alt="" srcset="" class="ml-4 w-48 col-span-3">
-        <p class="flex items-center h-full font-mono">Your Progress Simplified</p>
+<body class="bg-gradient-to-r from-neutral-950 to-neutral-900 text-white">
+    
+    <div id="head-image" class="flex justify-between items-center p-4">
+        <img src="../icons/logo-snaplearn.png" alt="Logo" class="w-32 sm:w-48">
+        <p class="text-sm sm:text-base font-mono">Your Progress Simplified</p>
     </div>
+
     <div class="container mx-auto p-4">
         <!-- Tabs -->
-        <div class="bg-neutral-800 flex justify-around  p-4 rounded shadow-md mb-4">
+        <div class="bg-neutral-800 flex justify-around p-4 rounded shadow-md mb-4 flex-wrap gap-2">
             <button class="text-orange-400 font-semibold">Explore</button>
-            <button class="">Learn</button>
-            <button class="">Profile</button>
+            <button>Learn</button>
+            <button>Profile</button>
         </div>
 
         <!-- Search Box -->
-        <div class="flex space-x-4 mb-8">
-          <input 
-            type="text" 
-            id="searchQuery" 
-            class="flex-grow p-4 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-300 outline-none text-lg bg-black-800 text-white" 
-            placeholder="Search YouTube videos..." 
-          />
-          <button 
-            id="searchButton" 
-            class="bg-white-600 hover:bg-orange-500 text-white font-bold px-6 py-4 rounded-xl shadow-md transition duration-300 ease-in-out">
-            Search
-          </button>
-          <button 
-            id="clearButton" 
-            class="bg-white-600 hover:bg-orange-500 text-white font-bold px-6 py-4 rounded-xl shadow-md transition duration-300 ease-in-out">
-            Clear
-          </button>
+        <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 mb-8">
+            <input type="text" id="searchQuery" class="flex-grow p-4 border rounded-xl text-lg bg-black-800 text-white outline-none focus:ring-4 focus:ring-blue-300" placeholder="Search YouTube videos..." />
+            <button id="searchButton" class="bg-orange-500 text-white font-bold px-6 py-4 rounded-xl shadow-md">Search</button>
+            <button id="clearButton" class="bg-gray-600 text-white font-bold px-6 py-4 rounded-xl shadow-md">Clear</button>
         </div>
 
-        <div id="resultsContainer" class="flex space-x-4 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-slate-700 overflow-x-scroll"></div>
+        <!-- Results Section -->
+        <div id="resultsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 overflow-x-auto scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-slate-700"></div>
 
         <!-- Resume Section -->
         <div class="mb-8">
             <h2 class="text-2xl font-semibold mb-4">Resume where you Left Off</h2>
             <div class="p-4 rounded shadow-md">
-                <iframe width="640" height="360" src="https://www.youtube.com/embed/W3gAzLwfIP0" title="How to Embed a Video on a Website (Embed Your YouTube Videos!)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe class="w-full h-60 sm:h-80" src="https://www.youtube.com/embed/W3gAzLwfIP0" frameborder="0" allowfullscreen></iframe>
                 <p class="text-orange-400">100 Seconds of HTMX</p>
             </div>
         </div>
 
         <!-- Explore Community Learnings Section -->
-        <div>
-            <h2 class="text-2xl font-semibold mb-4">Explore Community Learnings</h2>
-            <div class="flex space-x-4 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-blue-200 overflow-x-scroll">
-                <div class="p-4 rounded shadow-md w-108">
-                    <iframe width="480" height="270" src="https://www.youtube.com/embed/r-GSGH2RxJs" title="How to Embed a Video on a Website (Embed Your YouTube Videos!)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>  
-                    <p class="text-orange-400">100 Seconds of HTMX</p>
-                </div>
-                <div class="p-4 rounded shadow-md w-108">
-                    <iframe width="480" height="270" src="https://www.youtube.com/embed/CEXex3xdKro" title="How to Embed a Video on a Website (Embed Your YouTube Videos!)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>  
-                    <p class="text-orange-400">Electron v/s Tauri</p>
-                </div>
-                <div class="p-4 rounded shadow-md w-108">
-                    <iframe width="480" height="270" src="https://www.youtube.com/embed/37ISfJ2NSXQ" title="How to Embed a Video on a Website (Embed Your YouTube Videos!)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>  
-                    <p class="text-orange-400">I built my own browser</p>
-                </div>
+        <h2 class="text-2xl font-semibold mb-4">Explore Community Learnings</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <div class="p-4 rounded shadow-md">
+                <iframe class="w-full h-60" src="https://www.youtube.com/embed/r-GSGH2RxJs" frameborder="0" allowfullscreen></iframe>
+                <p class="text-orange-400">100 Seconds of HTMX</p>
+            </div>
+            <div class="p-4 rounded shadow-md">
+                <iframe class="w-full h-60" src="https://www.youtube.com/embed/CEXex3xdKro" frameborder="0" allowfullscreen></iframe>
+                <p class="text-orange-400">Electron v/s Tauri</p>
+            </div>
+            <div class="p-4 rounded shadow-md">
+                <iframe class="w-full h-60" src="https://www.youtube.com/embed/37ISfJ2NSXQ" frameborder="0" allowfullscreen></iframe>
+                <p class="text-orange-400">I built my own browser</p>
             </div>
         </div>
 
-        <div>
-            <h2 class="text-2xl font-semibold mb-4 mt-10">Top Rated Learnings</h2>
-            <div class="flex space-x-4 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-slate-700 overflow-x-scroll">
-                <div class="p-4 rounded shadow-md w-108">
-                    <iframe width="480" height="270" src="https://www.youtube.com/embed/R-MCQP4J8aI" title="How to Embed a Video on a Website (Embed Your YouTube Videos!)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>  
-                    <p class="text-orange-400">Simple Coding Vlog</p>
-                </div>
-                <div class="p-4 rounded shadow-md w-108">
-                    <iframe width="480" height="270" src="https://www.youtube.com/embed/fyTxwIa-1U0" title="How to Embed a Video on a Website (Embed Your YouTube Videos!)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>  
-                    <p class="text-orange-400">Session v/s JWT</p>
-                </div>
-                <div class="p-4 rounded shadow-md w-108">
-                    <iframe width="480" height="270" src="https://www.youtube.com/embed/Ha3ls0EAtW8" title="How to Embed a Video on a Website (Embed Your YouTube Videos!)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>  
-                    <p class="text-orange-400">REST API in Python</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="footer" class="text-gray-400 items-center mt-20 flex justify-center w-full">
+        <div id="footer" class="text-gray-400 text-center mt-20">
             <footer>&copy; Team SnapLearn</footer>
         </div>
     </div>
 
-    <script>
-      const apiKey = 'AIzaSyAV6-hb4AJjgRS2cVuLIEeiQg7esmNO1a0';  
-
-      // Function to handle search logic
-      async function searchVideos() {
-        const query = document.getElementById('searchQuery').value.trim();
-        if (!query) {
-          alert('Please enter a search query.');
-          return;
-        }
-
-        const resultsContainer = document.getElementById('resultsContainer');
-        resultsContainer.innerHTML = '<p class="text-gray-500 text-lg">Searching...</p>';
-
-        try {
-          const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(query)}&key=${apiKey}&maxResults=14`);
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          const data = await response.json();
-
-          if (data.items) {
-            resultsContainer.innerHTML = data.items.map(item => `
-              <div class="p-4 rounded shadow-md w-108">
-                <iframe width="480" height="270" src="https://www.youtube.com/embed/${item.id.videoId}" title="${item.snippet.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>  
-                <p class="text-orange-400">${item.snippet.title}</p>
-              </div>
-            `).join('');
-          } else {
-            resultsContainer.innerHTML = '<p class="text-red-500 text-lg">No results found.</p>';
-          }
-        } catch (error) {
-          resultsContainer.innerHTML = `<p class="text-red-500 text-lg">Error fetching data: ${error.message}</p>`;
-        }
-      }
-
-      // Clear search results function
-      function clearSearchResults() {
-        document.getElementById('searchQuery').value = '';
-        document.getElementById('resultsContainer').innerHTML = '';
-      }
-
-      // Event listener for the search button
-      document.getElementById('searchButton').addEventListener('click', searchVideos);
-
-      // Event listener for the clear button
-      document.getElementById('clearButton').addEventListener('click', clearSearchResults);
-
-      // Event listener for the Enter key
-      document.getElementById('searchQuery').addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-          searchVideos();
-        }
-      });
+    <script src="../js/search-logic.js">
     </script>
-
-
 </body>
 </html>
