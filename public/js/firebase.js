@@ -1,3 +1,7 @@
+import dotenv from 'dotenv';
+dotenv.config();
+const firebaseApiKey = process.env.FIREBASE_API_KEY;
+
 import { 
   initializeApp 
 } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
@@ -14,7 +18,7 @@ import {
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBo3ykiok30q0dsrON6MLtdLObmrwx9isk",
+  apiKey: firebaseApiKey,
   authDomain: "login-form-83f89.firebaseapp.com",
   projectId: "login-form-83f89",
   storageBucket: "login-form-83f89.appspot.com",

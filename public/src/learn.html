@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Page</title>
+    <link rel="icon" type="image/x-icon" href="../icons/snaplearn-128p.png">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="bg-gradient-to-r from-neutral-950 to-neutral-900 text-white">
+
+    <div id="head-image" class="flex justify-between items-center p-4">
+        <div class="flex flex-col items-center">
+            <img src="../icons/logo-snaplearn.png" alt="Logo" class="w-32 sm:w-48">
+        </div>
+        <p class="text-sm sm:text-base font-mono">Your Progress Simplified</p>
+    </div>
+
+    <div class="container mx-auto p-4">
+        <div class="bg-neutral-800 flex justify-around p-4 rounded shadow-md mb-4 flex-wrap gap-2">
+            <button onclick="goBack()">Explore</button>
+            <button class="text-orange-400 font-semibold">Learn</button>
+            <button onclick="navigateTo('profile.html')">Profile</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="md:col-span-2">
+                <iframe id="videoPlayer" class="w-full h-60 sm:h-96" src="" frameborder="0" allowfullscreen></iframe>
+
+                <div class="p-4 bg-neutral-800 rounded-xl shadow-md mt-4">
+                    <h2 class="text-2xl font-semibold mb-2">Video Summary</h2>
+                    <p id="videoSummary" class="text-gray-300">Loading...</p>
+                </div>
+
+                <div class="flex justify-between items-center p-4">
+                    <button onclick="toggleNotes()"
+                        class="bg-gradient-to-r from-neutral-950 to-neutral-900 text-white px-4 py-2 rounded">Create notes</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="notesSection" class="hidden p-4 bg-neutral-800 rounded-xl shadow-md mt-4">
+            <h2 class="text-xl font-semibold">Notes</h2>
+
+
+            <textarea id="notesArea" class="w-full h-40 p-2 bg-neutral-900 text-white rounded-lg"></textarea>
+
+
+            <div class="flex justify-between items-center mt-3">
+                <div class="flex space-x-3">
+                    <!-- Copy -->
+                    <button onclick="copyText()" id="copyBtn" title="Copy">
+                        <i data-lucide="copy" class="text-gray-400 hover:text-white"></i>
+                    </button>
+
+                    <!-- Read Aloud -->
+                    <button onclick="readText()" title="Read Aloud">
+                        <i data-lucide="volume-2" class="text-gray-400 hover:text-white"></i>
+                    </button>
+
+                    <!-- Edit -->
+                    <button onclick="toggleEdit()" id="editBtn" title="Edit">
+                        <i data-lucide="pencil" class="text-gray-400 hover:text-white"></i>
+                    </button>
+                    <!-- Voice Input -->
+                    <button onclick="startSpeechRecognition()" title="mic">
+                        <i data-lucide="mic" class="text-gray-400 hover:text-white"></i>
+                    </button>
+                </div>
+
+
+            </div>
+
+            <button onclick="saveNotesAsPDF()"
+                class="bg-gradient-to-r from-neutral-800 to-neutral-700 text-white px-6 py-2 rounded mt-3">
+                Save
+            </button>
+        </div>
+
+
+        <script>
+            lucide.createIcons();
+
+            function copyText() {
+                const notesArea = document.getElementById("notesArea");
+                notesArea.select();
+                document.execCommand("copy");
+                alert("Text copied!");
+            }
+
+            function readText() {
+                const text = document.getElementById("notesArea").value;
+                const speech = new SpeechSynthesisUtterance(text);
+                window.speechSynthesis.speak(speech);
+            }
+
+            function toggleEdit() {
+                const notesArea = document.getElementById("notesArea");
+                notesArea.disabled = !notesArea.disabled;
+                document.getElementById("editBtn").classList.toggle("text-white-500");
+
+            }
+
+            function startSpeechRecognition() {
+                const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                recognition.lang = "en-US";
+                recognition.continuous = true;  // Keep it running
+                recognition.interimResults = true;
+
+                recognition.start();
+
+                recognition.onresult = function (event) {
+                    let transcript = "";
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        transcript += event.results[i][0].transcript + " ";
+                    }
+                    document.getElementById("notesArea").value += transcript;
+                };
+
+                recognition.onend = function () {
+                    console.log("Speech recognition restarted...");
+                    recognition.start();  // Restart after stopping
+                };
+
+                recognition.onerror = function (event) {
+                    if (event.error === "no-speech") {
+                        console.log("No speech detected. Restarting...");
+                    } else {
+                        alert("Error: " + event.error);
+                    }
+                };
+            }
+
+        </script>
+
+
+        <div class="mt-4 p-4 bg-neutral-800 rounded-xl shadow-md text-center">
+            <h2 class="text-xl font-semibold">Your Progress</h2>
+            <p id="timeTracker" class="text-gray-400">Time Spent: 0 minutes</p>
+        </div>
+    </div>
+
+    <div id="footer" class="text-gray-400 text-center mt-20">
+        <footer>&copy; Team SnapLearn</footer>
+    </div>
+
+    <button onclick="toggleGeminiChat()"
+        class="fixed bottom-6 right-6 bg-gradient-to-r from-neutral-900 to-neutral-900 text-white p-4 rounded-full shadow-lg">
+        <img src="../icons/gemini-icon.png" alt="Gemini AI" class="w-20 h-20">
+    </button>
+
+    <div id="geminiChatContainer" class="hidden fixed bottom-20 right-6 bg-neutral-800 p-4 rounded shadow-lg w-80">
+        <div class="flex justify-between items-center mb-2">
+            <h2 class="text-lg font-semibold">Gemini AI</h2>
+            <button onclick="closeGeminiChat()" class="text-white text-xl">&times;</button>
+        </div>
+        <textarea id="geminiInput" class="w-full p-2 bg-neutral-900 text-white rounded-lg"
+            placeholder="Ask me anything..."></textarea>
+
+        <div class="flex justify-between items-center mt-3">
+            <div class="flex space-x-3">
+                <button onclick="copyGeminiText()" title="Copy">
+                    <i data-lucide="copy" class="text-gray-400 hover:text-white"></i>
+                </button>
+                <button onclick="readGeminiText()" title="Read Aloud">
+                    <i data-lucide="volume-2" class="text-gray-400 hover:text-white"></i>
+                </button>
+                <button onclick="toggleGeminiEdit()" id="geminiEditBtn" title="Edit">
+                    <i data-lucide="pencil" class="text-gray-400 hover:text-white"></i>
+                </button>
+                <button onclick="startGeminiSpeechRecognition()" title="mic">
+                    <i data-lucide="mic" class="text-gray-400 hover:text-white"></i>
+                </button>
+                <button onclick="askGemini()"
+                    class="mt-2 bg-neutral-900 text-white p-2 rounded-full w-7 h-7 flex items-center justify-center">➤</button>
+            </div>
+        </div>
+        <div id="geminiResponseContainer" class="mt-2 max-h-40 overflow-y-auto">
+            <p id="geminiResponse" class="text-gray-300"></p>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function copyGeminiText() {
+            const geminiInput = document.getElementById("geminiInput");
+            geminiInput.select();
+            document.execCommand("copy");
+            alert("Text copied!");
+        }
+
+        function readGeminiText() {
+            const text = document.getElementById("geminiInput").value;
+            const speech = new SpeechSynthesisUtterance(text);
+            window.speechSynthesis.speak(speech);
+        }
+
+        function toggleGeminiEdit() {
+            const geminiInput = document.getElementById("geminiInput");
+            geminiInput.disabled = !geminiInput.disabled;
+            document.getElementById("geminiEditBtn").classList.toggle("text-yellow-500");
+        }
+
+        function startGeminiSpeechRecognition() {
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = "en-US";
+            recognition.continuous = false;  // Better control over stopping
+            recognition.interimResults = true;
+
+            recognition.start();
+
+            recognition.onresult = function (event) {
+                let transcript = "";
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    transcript += event.results[i][0].transcript + " ";
+                }
+
+                const geminiInput = document.getElementById("geminiInput");
+                if (geminiInput) {
+                    geminiInput.value += transcript;
+                } else {
+                    console.error("Element with ID 'geminiInput' not found!");
+                }
+            };
+
+            recognition.onspeechend = function () {
+                recognition.stop();
+                console.log("Speech recognition stopped.");
+            };
+
+            recognition.onerror = function (event) {
+                console.error("Speech Recognition Error: ", event.error);
+                if (event.error === "no-speech" || event.error === "aborted") {
+                    console.log("No speech detected or aborted. Restarting...");
+                    startGeminiSpeechRecognition(); // Restart automatically
+                } else {
+                    alert("Error: " + event.error);
+                }
+            };
+        }
+
+    </script>
+    <script>
+        let startTime = Date.now();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const videoId = localStorage.getItem('selectedVideoId');
+            const title = localStorage.getItem('selectedVideoTitle');
+            if (videoId) {
+                document.getElementById('videoPlayer').src = "https://www.youtube.com/embed/" + videoId;
+                document.getElementById('videoSummary').innerText = title;
+                setInterval(updateTimeSpent, 60000);
+            }
+        });
+
+        function updateTimeSpent() {
+            let elapsedTime = Math.floor((Date.now() - startTime) / 60000);
+            document.getElementById("timeTracker").innerText = "Time Spent: " + elapsedTime + " minutes";
+        }
+
+        function saveNotesAsPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const notes = document.getElementById("notesArea").value;
+            doc.text(notes, 10, 10);
+            doc.save("SnapLearn_Notes.pdf");
+        }
+
+        function goBack() {
+            window.location.href = 'main.html';
+        }
+
+        function toggleNotes() {
+            const notesSection = document.getElementById("notesSection");
+            notesSection.classList.toggle("hidden");
+        }
+
+        function toggleGeminiChat() {
+            const chatContainer = document.getElementById("geminiChatContainer");
+            chatContainer.classList.toggle("hidden");
+        }
+
+        function closeGeminiChat() {
+            document.getElementById("geminiChatContainer").classList.add("hidden");
+        }
+        document.getElementById("geminiInput").addEventListener("keypress", function (event) {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                askGemini();
+            }
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                document.getElementById("notesSection").classList.add("hidden");
+                document.getElementById("geminiChatContainer").classList.add("hidden");
+            }
+
+            if (event.ctrlKey && event.key.toLowerCase() === "i") {
+                event.preventDefault();
+                toggleGeminiChat();
+            }
+        });
+
+
+    </script>
+
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>

@@ -18,8 +18,8 @@
         <!-- Tabs -->
         <div class="bg-neutral-800 flex justify-around p-4 rounded shadow-md mb-4 flex-wrap gap-2">
             <button class="text-orange-400 font-semibold">Explore</button>
-            <button>Learn</button>
-            <button>Profile</button>
+            <button onclick="navigateTo('learn.html')">Learn</button>
+            <button onclick="navigateTo('profile.html')">Profile</button>
         </div>
 
         <!-- Search Box -->
@@ -63,7 +63,75 @@
         </div>
     </div>
 
+    <script>
+        const apiKey = 'AIzaSyAV6-hb4AJjgRS2cVuLIEeiQg7esmNO1a0';
+
+        // Function to search for videos
+        async function searchVideos() {
+            const query = document.getElementById('searchQuery').value.trim();
+            if (!query) {
+                alert('Please enter a search query.');
+                return;
+            }
+
+            const resultsContainer = document.getElementById('resultsContainer');
+            resultsContainer.innerHTML = '<p class="text-gray-500 text-lg">Searching...</p>';
+
+            try {
+                const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(query)}&key=${apiKey}&maxResults=9`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+
+                if (data.items) {
+                    resultsContainer.innerHTML = data.items.map(item => `
+                        <div class="p-4 rounded shadow-md">
+                            <iframe class="w-full h-60" src="https://www.youtube.com/embed/${item.id.videoId}" title="${item.snippet.title}" frameborder="0" allowfullscreen></iframe>
+                            <p class="text-orange-400 cursor-pointer" onclick="loadVideo('${item.id.videoId}', '${item.snippet.title}')">${item.snippet.title}</p>
+                        </div>
+                    `).join('');
+                } else {
+                    resultsContainer.innerHTML = '<p class="text-red-500 text-lg">No results found.</p>';
+                }
+            } catch (error) {
+                resultsContainer.innerHTML = `<p class="text-red-500 text-lg">Error fetching data: ${error.message}</p>`;
+            }
+        }
+
+        // Function to load video on the learn page
+        function loadVideo(videoId, title) {
+            localStorage.setItem('selectedVideoId', videoId);
+            localStorage.setItem('selectedVideoTitle', title);
+            window.location.href = 'learn.html';
+        }
+
+        // Event Listeners
+        document.getElementById('searchButton').addEventListener('click', searchVideos);
+        document.getElementById('clearButton').addEventListener('click', () => {
+            document.getElementById('searchQuery').value = '';
+            document.getElementById('resultsContainer').innerHTML = '';
+        });
+        document.getElementById('searchQuery').addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                searchVideos();
+            }
+        });
+
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+    </script>
+</body>
+</html>
+
     <script src="../js/search-logic.js">
     </script>
 </body>
 </html>
+
+
+
+
+
+

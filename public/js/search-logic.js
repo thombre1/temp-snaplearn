@@ -1,4 +1,6 @@
-const apiKey = 'AIzaSyAV6-hb4AJjgRS2cVuLIEeiQg7esmNO1a0';  
+import dotenv from 'dotenv';
+dotenv.config();
+const youtubeApiKey = process.env.YOUTUBE_API_KEY; 
 
 // Function to handle search logic
 async function searchVideos() {
@@ -12,7 +14,7 @@ async function searchVideos() {
   resultsContainer.innerHTML = '<p class="text-gray-500 text-lg">Searching...</p>';
 
   try {
-    const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(query)}&key=${apiKey}&maxResults=14`);
+    const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(query)}&key=${youtubeApiKey}&maxResults=50`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
